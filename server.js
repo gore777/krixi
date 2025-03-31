@@ -1,33 +1,57 @@
-import express from 'express';
-import { createServer } from 'http';
-import { Server } from 'socket.io';
+const express = require("express");
+const http = require("http");
+const { Server } = require("socket.io");
+const path = require("path");
 
 const app = express();
-const server = createServer(app);
-const io = new Server(server);
-
-app.use(express.static('public'));
-
-const players = {};
-
-io.on('connection', (socket) => {
-    console.log('Игрок подключился:', socket.id);
-    players[socket.id] = { x: 0, z: 0 };
-
-    io.emit('newPlayer', { id: socket.id, ...players[socket.id] });
-
-    socket.on('move', (data) => {
-        players[socket.id] = data;
-        io.emit('updatePlayers', players);
-    });
-
-    socket.on('disconnect', () => {
-        delete players[socket.id];
-        io.emit('updatePlayers', players);
-    });
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: { origin: "*", methods: ["GET", "POST"] },
 });
 
-server.listen(3000, () => {
-    console.log('Сервер запущен на порту 3000');
+let players = {};
+
+// Обслуживаем статические файлы из корневой директории
+app.use(express.static(path.join(__dirname)));
+
+io.on("connection", (socket) => {
+  console.log(`Player connected: ${socket.id}`);
+  players[socket.id] = { x: 0, y: 1, z: 0, health: 100 };
+  io.emit("update", players);
+
+  socket.on("move", (data) => {
+    if (players[socket.id]) {
+      players[socket.id].x = data.x;
+      players[socket.id].y = data.y;
+      players[socket.id].z = data.z;
+      io.emit("update", players);
+    }
+  });
+
+  socket.on("shoot", (data) => {
+    io.emit("shot", { ...data, shooter: socket.id });
+  });
+
+  socket.on("hit", (data) => {
+    Object.keys(players).forEach((id) => {
+      if (players[id].id === data.target) {
+        players[id].health -= data.damage;
+        io.to(id).emit("damage", data.damage);
+        if (players[id].health <= 0) {
+          delete players[id];
+        }
+      }
+    });
+    io.emit("update", players);
+  });
+
+  socket.on("disconnect", () => {
+    console.log(`Player disconnected: ${socket.id}`);
+    delete players[socket.id];
+    io.emit("update", players);
+  });
 });
 
+// Используем порт из переменной окружения Render или 3000 локально
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
