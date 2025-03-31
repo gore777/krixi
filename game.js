@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+const THREE = window.THREE;
 import { io } from 'https://cdn.socket.io/4.5.4/socket.io.esm.min.js';
 
 const socket = io();
