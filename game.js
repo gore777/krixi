@@ -4,7 +4,7 @@ import { PointerLockControls } from "https://cdn.jsdelivr.net/npm/three@0.150.1/
 import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.150.1/examples/jsm/loaders/GLTFLoader.js";
 
 // Подключение к серверу (замените на URL после деплоя)
-const socket = io(); // После деплоя: io("https://your-app-name.onrender.com");
+const socket = io(); ("https://krixi-unj3.onrender.com");
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
