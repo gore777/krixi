@@ -11,7 +11,6 @@ const io = new Server(server, {
 
 let players = {};
 
-// Обслуживаем статические файлы из корневой директории
 app.use(express.static(path.join(__dirname)));
 
 io.on("connection", (socket) => {
@@ -52,6 +51,5 @@ io.on("connection", (socket) => {
   });
 });
 
-// Используем порт из переменной окружения Render или 3000 локально
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
