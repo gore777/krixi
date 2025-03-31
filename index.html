@@ -4,7 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D Shooter</title>
+
+    <!-- Подключаем Three.js через CDN -->
+    <script type="module">
+        import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.module.min.js";
+        window.THREE = THREE;
+    </script>
+
+    <!-- Подключаем game.js -->
     <script type="module" src="game.js"></script>
+
     <style>
         body { margin: 0; overflow: hidden; }
     </style>
@@ -12,3 +21,4 @@
 <body>
 </body>
 </html>
+
