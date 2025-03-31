@@ -3,22 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Shooter</title>
-
-    <!-- Подключаем Three.js через CDN -->
-    <script type="module">
-        import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.module.min.js";
-        window.THREE = THREE;
-    </script>
-
-    <!-- Подключаем game.js -->
-    <script type="module" src="game.js"></script>
-
+    <title>Kour.io Clone Enhanced</title>
+    <script type="module" src="/game.js"></script>
     <style>
-        body { margin: 0; overflow: hidden; }
+        body { 
+            margin: 0; 
+            overflow: hidden; 
+            background: #333; 
+            cursor: crosshair;
+        }
+        canvas { display: block; }
+        #crosshair {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 2px;
+            height: 2px;
+            background: white;
+            transform: translate(-50%, -50%);
+        }
+        #hud {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
     </style>
 </head>
 <body>
+    <div id="crosshair"></div>
+    <div id="hud">
+        <div id="health">Health: 100</div>
+        <div id="weapon">Weapon: Pistol</div>
+    </div>
 </body>
 </html>
-
