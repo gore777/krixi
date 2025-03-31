@@ -1,10 +1,11 @@
+// game.js
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.module.min.js";
 import { io } from "https://cdn.socket.io/4.7.2/socket.io.esm.min.js";
 import { PointerLockControls } from "https://cdn.jsdelivr.net/npm/three@0.150.1/examples/jsm/controls/PointerLockControls.js";
 import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.150.1/examples/jsm/loaders/GLTFLoader.js";
 
-// Подключение к серверу (замените на ваш URL после деплоя)
-const socket = io(); // После деплоя: io("https://your-app-name.onrender.com");
+// Подключение к серверу
+const socket = io("https://krixi-unj3.onrender.com");
 
 // Проверка подключения WebSocket
 socket.on("connect", () => {
@@ -246,7 +247,7 @@ function animate() {
 
   document.getElementById("weapon").textContent = `Weapon: ${currentWeapon}`;
   renderer.render(scene, camera);
-  console.log("Rendering frame"); // Для отладки
+  console.log("Rendering frame");
 }
 
 respawn();
