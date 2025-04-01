@@ -1,9 +1,40 @@
 // game.js
-import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.module.min.js";
-import { io } from "https://cdn.socket.io/4.7.2/socket.io.esm.min.js";
-import { PointerLockControls } from "https://cdn.jsdelivr.net/npm/three@0.150.1/examples/jsm/controls/PointerLockControls.js";
-import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.150.1/examples/jsm/loaders/GLTFLoader.js";
-import * as CANNON from "https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js";
+console.log("Starting game.js");
+
+try {
+  import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.module.min.js";
+  console.log("Three.js imported successfully");
+} catch (error) {
+  console.error("Failed to import Three.js:", error);
+}
+
+try {
+  import { io } from "https://cdn.socket.io/4.7.2/socket.io.esm.min.js";
+  console.log("Socket.IO imported successfully");
+} catch (error) {
+  console.error("Failed to import Socket.IO:", error);
+}
+
+try {
+  import { PointerLockControls } from "https://cdn.jsdelivr.net/npm/three@0.150.1/examples/jsm/controls/PointerLockControls.js";
+  console.log("PointerLockControls imported successfully");
+} catch (error) {
+  console.error("Failed to import PointerLockControls:", error);
+}
+
+try {
+  import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.150.1/examples/jsm/loaders/GLTFLoader.js";
+  console.log("GLTFLoader imported successfully");
+} catch (error) {
+  console.error("Failed to import GLTFLoader:", error);
+}
+
+try {
+  import * as CANNON from "https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js";
+  console.log("Cannon.js imported successfully");
+} catch (error) {
+  console.error("Failed to import Cannon.js:", error);
+}
 
 // Подключение к серверу
 const socket = io("https://krixi-unj3.onrender.com");
@@ -372,7 +403,7 @@ socket.on("kill", (killerId) => {
   kills++;
   updateHUD();
   teamScores[team]++;
-  document.getElementById("team-score").textContent = `Red: ${scores.red} | Blue: ${scores.blue}`;
+  document.getElementById("team-score").textContent = `Red: ${teamScores.red} | Blue: ${teamScores.blue}`;
 });
 
 function switchWeapon(weapon) {
@@ -511,3 +542,8 @@ window.addEventListener("resize", () => {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
+// Отладка камеры
+camera.position.set(0, 5, 10);
+camera.lookAt(0, 0, 0);
+console.log("Camera position:", camera.position);
