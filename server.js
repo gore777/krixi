@@ -1,3 +1,4 @@
+// server.js
 const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
@@ -10,13 +11,23 @@ const io = new Server(server, {
 });
 
 let players = {};
+let teamScores = { red: 0, blue: 0 };
 
 app.use(express.static(path.join(__dirname)));
 
 io.on("connection", (socket) => {
   console.log(`Player connected: ${socket.id}`);
-  players[socket.id] = { x: 0, y: 1, z: 0, health: 100 };
-  io.emit("update", players);
+
+  socket.on("join", (data) => {
+    players[socket.id] = {
+      x: 0,
+      y: 1,
+      z: 0,
+      health: 100,
+      team: data.team,
+    };
+    io.emit("update", players);
+  });
 
   socket.on("move", (data) => {
     if (players[socket.id]) {
@@ -37,6 +48,9 @@ io.on("connection", (socket) => {
         players[id].health -= data.damage;
         io.to(id).emit("damage", data.damage);
         if (players[id].health <= 0) {
+          io.to(data.shooter).emit("kill", id);
+          teamScores[players[data.shooter].team]++;
+          io.emit("teamScores", teamScores);
           delete players[id];
         }
       }
