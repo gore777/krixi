@@ -226,6 +226,24 @@ loader.load("/pistol.glb", (gltf) => {
   camera.add(weapons.pistol.model);
 });
 
+// Загрузка модели для винтовки (pistolg.glb)
+loader.load("/pistolg.glb", (gltf) => {
+  weapons.rifle.model = gltf.scene;
+  weapons.rifle.model.scale.set(0.5, 0.5, 0.5);
+  weapons.rifle.model.position.set(0.3, -0.3, -0.5);
+  camera.add(weapons.rifle.model);
+  weapons.rifle.model.visible = false; // Скрываем по умолчанию
+  console.log("Rifle model loaded");
+}, undefined, (error) => {
+  console.warn("Rifle model not loaded, using fallback cube:", error);
+  const weaponGeometry = new THREE.BoxGeometry(0.2, 0.1, 0.5);
+  const weaponMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // Зеленый куб для винтовки
+  weapons.rifle.model = new THREE.Mesh(weaponGeometry, weaponMaterial);
+  weapons.rifle.model.position.set(0.3, -0.3, -0.5);
+  camera.add(weapons.rifle.model);
+  weapons.rifle.model.visible = false;
+});
+
 // Меню
 const menu = document.getElementById("menu");
 const playButton = document.getElementById("play-button");
@@ -354,7 +372,7 @@ socket.on("kill", (killerId) => {
   kills++;
   updateHUD();
   teamScores[team]++;
-  document.getElementById("team-score").textContent = `Red: ${teamScores.red} | Blue: ${teamScores.blue}`;
+  document.getElementById("team-score").textContent = `Red: ${scores.red} | Blue: ${scores.blue}`;
 });
 
 function switchWeapon(weapon) {
