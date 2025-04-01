@@ -38,45 +38,52 @@ const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
 directionalLight.position.set(0, 10, 0);
 scene.add(directionalLight);
 
-// Звуки
+// Звуки (с заглушками)
 const audioListener = new THREE.AudioListener();
 camera.add(audioListener);
 const shootSound = new THREE.Audio(audioListener);
+const shootSound2 = new THREE.Audio(audioListener); // Для винтовки
 const hitSound = new THREE.Audio(audioListener);
 const stepSound = new THREE.Audio(audioListener);
 const jumpSound = new THREE.Audio(audioListener);
 const reloadSound = new THREE.Audio(audioListener);
 
 const audioLoader = new THREE.AudioLoader();
-audioLoader.load("/assets/gunshot.mp3", (buffer) => {
+audioLoader.load("/gunshot.mp3", (buffer) => {
   shootSound.setBuffer(buffer);
   console.log("Gunshot sound loaded");
 }, undefined, (error) => {
-  console.error("Error loading gunshot sound:", error);
+  console.warn("Gunshot sound not loaded, proceeding without sound:", error);
 });
-audioLoader.load("/assets/hit.mp3", (buffer) => {
+audioLoader.load("/gunshot2.mp3", (buffer) => {
+  shootSound2.setBuffer(buffer);
+  console.log("Gunshot2 sound loaded");
+}, undefined, (error) => {
+  console.warn("Gunshot2 sound not loaded, proceeding without sound:", error);
+});
+audioLoader.load("/hit.mp3", (buffer) => {
   hitSound.setBuffer(buffer);
   console.log("Hit sound loaded");
 }, undefined, (error) => {
-  console.error("Error loading hit sound:", error);
+  console.warn("Hit sound not loaded, proceeding without sound:", error);
 });
-audioLoader.load("/assets/step.mp3", (buffer) => {
+audioLoader.load("/step.mp3", (buffer) => {
   stepSound.setBuffer(buffer);
   console.log("Step sound loaded");
 }, undefined, (error) => {
-  console.error("Error loading step sound:", error);
+  console.warn("Step sound not loaded, proceeding without sound:", error);
 });
-audioLoader.load("/assets/jump.mp3", (buffer) => {
+audioLoader.load("/jump.mp3", (buffer) => {
   jumpSound.setBuffer(buffer);
   console.log("Jump sound loaded");
 }, undefined, (error) => {
-  console.error("Error loading jump sound:", error);
+  console.warn("Jump sound not loaded, proceeding without sound:", error);
 });
-audioLoader.load("/assets/reload.mp3", (buffer) => {
+audioLoader.load("/reload.mp3", (buffer) => {
   reloadSound.setBuffer(buffer);
   console.log("Reload sound loaded");
 }, undefined, (error) => {
-  console.error("Error loading reload sound:", error);
+  console.warn("Reload sound not loaded, proceeding without sound:", error);
 });
 
 // Игроки и физические тела
@@ -90,9 +97,9 @@ world.addBody(playerBody);
 
 // Оружие
 const weapons = {
-  pistol: { damage: 20, fireRate: 300, ammo: 15, maxAmmo: 30, reloadTime: 2000, model: null },
-  rifle: { damage: 30, fireRate: 100, ammo: 30, maxAmmo: 90, reloadTime: 3000, model: null },
-  shotgun: { damage: 50, fireRate: 800, ammo: 8, maxAmmo: 24, reloadTime: 4000, model: null },
+  pistol: { damage: 20, fireRate: 300, ammo: 15, maxAmmo: 30, reloadTime: 2000, model: null, sound: shootSound },
+  rifle: { damage: 30, fireRate: 100, ammo: 30, maxAmmo: 90, reloadTime: 3000, model: null, sound: shootSound2 },
+  shotgun: { damage: 50, fireRate: 800, ammo: 8, maxAmmo: 24, reloadTime: 4000, model: null, sound: shootSound },
 };
 let currentWeapon = "pistol";
 let lastShot = 0;
@@ -136,15 +143,16 @@ function createMap() {
   world.addBody(floorBody);
 
   const textureLoader = new THREE.TextureLoader();
-  textureLoader.load("/assets/floor.jpg", (floorTexture) => {
+  textureLoader.load("/floor.jpg", (floorTexture) => {
     const floor = new THREE.Mesh(
       new THREE.PlaneGeometry(50, 50),
       new THREE.MeshPhongMaterial({ map: floorTexture })
     );
     floor.rotation.x = -Math.PI / 2;
     scene.add(floor);
+    console.log("Floor texture loaded and added to scene");
   }, undefined, (error) => {
-    console.error("Error loading floor texture:", error);
+    console.warn("Floor texture not loaded, using fallback color:", error);
     const floor = new THREE.Mesh(
       new THREE.PlaneGeometry(50, 50),
       new THREE.MeshPhongMaterial({ color: 0x808080 })
@@ -202,15 +210,15 @@ function createMap() {
 createSkybox();
 createMap();
 
-// Загрузка моделей оружия
-loader.load("/assets/pistol.glb", (gltf) => {
+// Загрузка моделей оружия (с заглушкой)
+loader.load("/pistol.glb", (gltf) => {
   weapons.pistol.model = gltf.scene;
   weapons.pistol.model.scale.set(0.5, 0.5, 0.5);
   weapons.pistol.model.position.set(0.3, -0.3, -0.5);
   camera.add(weapons.pistol.model);
   console.log("Pistol model loaded");
 }, undefined, (error) => {
-  console.error("Error loading pistol model:", error);
+  console.warn("Pistol model not loaded, using fallback cube:", error);
   const weaponGeometry = new THREE.BoxGeometry(0.2, 0.1, 0.5);
   const weaponMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
   weapons.pistol.model = new THREE.Mesh(weaponGeometry, weaponMaterial);
@@ -287,8 +295,10 @@ document.addEventListener("mousedown", () => {
       weapons[currentWeapon].ammo--;
       updateHUD();
 
-      if (shootSound.isPlaying) shootSound.stop();
-      shootSound.play();
+      if (weapons[currentWeapon].sound.buffer) {
+        if (weapons[currentWeapon].sound.isPlaying) weapons[currentWeapon].sound.stop();
+        weapons[currentWeapon].sound.play();
+      }
 
       // Анимация отдачи
       if (weapons[currentWeapon].model) {
@@ -331,8 +341,10 @@ socket.on("shot", (data) => {
 socket.on("damage", (damage) => {
   if (!isInvulnerable) {
     health -= damage;
-    if (hitSound.isPlaying) hitSound.stop();
-    hitSound.play();
+    if (hitSound.buffer) {
+      if (hitSound.isPlaying) hitSound.stop();
+      hitSound.play();
+    }
     updateHUD();
     if (health <= 0) die();
   }
@@ -361,8 +373,10 @@ function switchWeapon(weapon) {
 function reloadWeapon() {
   if (!isReloading && weapons[currentWeapon].ammo < weapons[currentWeapon].maxAmmo) {
     isReloading = true;
-    if (reloadSound.isPlaying) reloadSound.stop();
-    reloadSound.play();
+    if (reloadSound.buffer) {
+      if (reloadSound.isPlaying) reloadSound.stop();
+      reloadSound.play();
+    }
 
     // Анимация перезарядки
     if (weapons[currentWeapon].model) {
@@ -437,12 +451,14 @@ function animate() {
   if (keys[" "] && canJump) {
     playerBody.velocity.y = jumpHeight;
     canJump = false;
-    if (jumpSound.isPlaying) jumpSound.stop();
-    jumpSound.play();
+    if (jumpSound.buffer) {
+      if (jumpSound.isPlaying) jumpSound.stop();
+      jumpSound.play();
+    }
   }
 
   // Звуки шагов
-  if ((keys["w"] || keys["s"] || keys["a"] || keys["d"]) && !stepSound.isPlaying) {
+  if ((keys["w"] || keys["s"] || keys["a"] || keys["d"]) && stepSound.buffer && !stepSound.isPlaying) {
     stepSound.play();
   }
 
