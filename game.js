@@ -1,6 +1,9 @@
 // game.js
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.module.min.js";
 import { PointerLockControls } from "https://cdn.jsdelivr.net/npm/three@0.150.1/examples/jsm/controls/PointerLockControls.js";
+import { createMap } from "./map.js";
+import { Player } from "./player.js";
+import { WeaponSystem } from "./weapons.js";
 
 let scene, camera, renderer, controls, player, weaponSystem;
 
@@ -48,4 +51,4 @@ window.addEventListener("resize", () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-initMenu();
+export { initGame };
