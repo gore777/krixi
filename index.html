@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kour Clone - Multiplayer FPS</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
+    <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/examples/js/controls/PointerLockControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="/textures.js"></script>
+    <script src="/map.js"></script>
+    <script src="/player.js"></script>
+    <script src="/weapons.js"></script>
+    <script src="/menu.js"></script>
+    <script src="/game.js"></script>
+</head>
+<body>
+    <div id="menu">
+        <h1>Kour Clone</h1>
+        <div id="mode-selection">
+            <h2>Select Game Mode</h2>
+            <button onclick="selectMode('FFA')">Free For All</button>
+            <button onclick="selectMode('TDM')">Team Deathmatch</button>
+        </div>
+        <div id="customization">
+            <h2>Customize Character</h2>
+            <label>Color: <input type="color" id="player-color" value="#ffffff"></label>
+            <label>Weapon:
+                <select id="player-weapon">
+                    <option value="pistol">Pistol</option>
+                    <option value="rifle">Rifle</option>
+                    <option value="shotgun">Shotgun</option>
+                </select>
+            </label>
+            <button onclick="applyCustomization()">Apply</button>
+        </div>
+        <button onclick="startGame()">Start Game</button>
+    </div>
+    <div id="game" style="display: none;">
+        <div id="crosshair"></div>
+        <div id="hud">
+            <div id="health">Health: 100</div>
+            <div id="kills">Kills: 0</div>
+            <div id="weapon">Weapon: Pistol</div>
+            <div id="mode">Mode: FFA</div>
+        </div>
+        <div id="scoreboard" style="display: none;">
+            <h2>Scoreboard</h2>
+            <div id="scoreboard-content"></div>
+            <button onclick="backToMenu()">Back to Menu</button>
+        </div>
+    </div>
+    <audio id="shoot-sound" src="https://threejs.org/examples/sounds/gunshot.mp3"></audio>
+    <audio id="hit-sound" src="https://threejs.org/examples/sounds/hit.mp3"></audio>
+</body>
+</html>
