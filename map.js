@@ -1,4 +1,6 @@
 // map.js
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.module.min.js";
+
 function createMap(scene) {
     const textureLoader = new THREE.TextureLoader();
 
