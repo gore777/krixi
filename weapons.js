@@ -1,4 +1,6 @@
 // weapons.js
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.module.min.js";
+
 class WeaponSystem {
     constructor(socket, scene, camera, controls, player) {
         this.socket = socket;
