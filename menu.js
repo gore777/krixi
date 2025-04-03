@@ -3,6 +3,12 @@ let socket;
 
 function initMenu() {
     socket = io("https://krixi-unj3.onrender.com");
+    socket.on("connect", () => {
+        console.log("Connected to WebSocket server");
+    });
+    socket.on("connect_error", (error) => {
+        console.error("WebSocket connection error:", error);
+    });
 }
 
 function selectMode(mode) {
