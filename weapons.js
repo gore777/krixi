@@ -69,3 +69,5 @@ class WeaponSystem {
         document.getElementById("weapon").textContent = `Weapon: ${this.currentWeapon}`;
     }
 }
+
+export { WeaponSystem };
