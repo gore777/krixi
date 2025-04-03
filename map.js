@@ -3,21 +3,36 @@ function createMap(scene) {
     const textureLoader = new THREE.TextureLoader();
 
     // Пол
-    const floorTex = textureLoader.load(floorTexture);
-    floorTex.wrapS = floorTex.wrapT = THREE.RepeatWrapping;
-    floorTex.repeat.set(10, 10);
+    let floorMaterial;
+    try {
+        const floorTex = textureLoader.load(floorTexture);
+        floorTex.wrapS = floorTex.wrapT = THREE.RepeatWrapping;
+        floorTex.repeat.set(10, 10);
+        floorMaterial = new THREE.MeshPhongMaterial({ map: floorTex });
+        console.log("Floor texture loaded");
+    } catch (error) {
+        console.error("Error loading floor texture:", error);
+        floorMaterial = new THREE.MeshPhongMaterial({ color: 0x666666 });
+    }
     const floor = new THREE.Mesh(
         new THREE.PlaneGeometry(50, 50),
-        new THREE.MeshPhongMaterial({ map: floorTex })
+        floorMaterial
     );
     floor.rotation.x = -Math.PI / 2;
     scene.add(floor);
 
     // Стены
-    const wallTex = textureLoader.load(wallTexture);
-    wallTex.wrapS = wallTex.wrapT = THREE.RepeatWrapping;
-    wallTex.repeat.set(5, 2);
-    const wallMaterial = new THREE.MeshPhongMaterial({ map: wallTex });
+    let wallMaterial;
+    try {
+        const wallTex = textureLoader.load(wallTexture);
+        wallTex.wrapS = wallTex.wrapT = THREE.RepeatWrapping;
+        wallTex.repeat.set(5, 2);
+        wallMaterial = new THREE.MeshPhongMaterial({ map: wallTex });
+        console.log("Wall texture loaded");
+    } catch (error) {
+        console.error("Error loading wall texture:", error);
+        wallMaterial = new THREE.MeshPhongMaterial({ color: 0x8B4513 });
+    }
     const wallGeometry = new THREE.BoxGeometry(50, 5, 1);
     const walls = [
         new THREE.Mesh(wallGeometry, wallMaterial),
@@ -32,10 +47,17 @@ function createMap(scene) {
     walls.forEach((wall) => scene.add(wall));
 
     // Ящики
-    const crateTex = textureLoader.load(crateTexture);
-    crateTex.wrapS = crateTex.wrapT = THREE.RepeatWrapping;
-    crateTex.repeat.set(2, 2);
-    const crateMaterial = new THREE.MeshPhongMaterial({ map: crateTex });
+    let crateMaterial;
+    try {
+        const crateTex = textureLoader.load(crateTexture);
+        crateTex.wrapS = crateTex.wrapT = THREE.RepeatWrapping;
+        crateTex.repeat.set(2, 2);
+        crateMaterial = new THREE.MeshPhongMaterial({ map: crateTex });
+        console.log("Crate texture loaded");
+    } catch (error) {
+        console.error("Error loading crate texture:", error);
+        crateMaterial = new THREE.MeshPhongMaterial({ color: 0x8B5A2B });
+    }
     const crateGeometry = new THREE.BoxGeometry(3, 3, 3);
     const crates = [
         new THREE.Mesh(crateGeometry, crateMaterial),
