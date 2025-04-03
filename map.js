@@ -1,5 +1,6 @@
 // map.js
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.module.min.js";
+import { floorTexture, wallTexture, crateTexture } from "./textures.js";
 
 function createMap(scene) {
     const textureLoader = new THREE.TextureLoader();
@@ -71,3 +72,5 @@ function createMap(scene) {
     crates[2].position.set(0, 1.5, 0);
     crates.forEach((crate) => scene.add(crate));
 }
+
+export { createMap };
