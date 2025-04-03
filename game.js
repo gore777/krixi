@@ -7,6 +7,7 @@ function initGame() {
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.getElementById("game").appendChild(renderer.domElement);
+    console.log("Renderer initialized");
 
     controls = new THREE.PointerLockControls(camera, renderer.domElement);
     document.addEventListener("click", () => controls.lock());
@@ -16,14 +17,17 @@ function initGame() {
     const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
     directionalLight.position.set(0, 10, 0);
     scene.add(directionalLight);
+    console.log("Lights added");
 
     createMap(scene);
+    console.log("Map created");
 
     player = new Player(socket, scene, camera, controls);
     weaponSystem = new WeaponSystem(socket, scene, camera, controls, player);
 
     camera.position.set(0, 5, 10);
     camera.lookAt(0, 0, 0);
+    console.log("Camera positioned at:", camera.position);
 
     animate();
 }
@@ -32,6 +36,7 @@ function animate() {
     requestAnimationFrame(animate);
     player.update();
     renderer.render(scene, camera);
+    console.log("Rendering frame");
 }
 
 window.addEventListener("resize", () => {
