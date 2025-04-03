@@ -1,4 +1,7 @@
 // menu.js
+import { initGame } from "./game.js";
+import { player } from "./player.js";
+
 let socket;
 
 function initMenu() {
@@ -42,3 +45,12 @@ function backToMenu() {
     document.getElementById("game").style.display = "none";
     document.getElementById("menu").style.display = "block";
 }
+
+// Делаем функции глобальными
+window.selectMode = selectMode;
+window.applyCustomization = applyCustomization;
+window.startGame = startGame;
+window.showScoreboard = showScoreboard;
+window.backToMenu = backToMenu;
+
+initMenu();
