@@ -1,6 +1,8 @@
 // player.js
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.module.min.js";
 
+let player;
+
 class Player {
     constructor(socket, scene, camera, controls) {
         this.socket = socket;
@@ -16,6 +18,7 @@ class Player {
         this.players = {};
         this.keys = {};
         this.init();
+        player = this;
     }
 
     init() {
@@ -112,3 +115,5 @@ class Player {
         document.getElementById("health").textContent = `Health: ${this.health}`;
     }
 }
+
+export { Player, player };
