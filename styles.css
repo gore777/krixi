@@ -1,0 +1,99 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #222;
+    color: white;
+    overflow: hidden;
+}
+
+#menu {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+#menu h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+#menu h2 {
+    font-size: 24px;
+    margin: 10px 0;
+}
+
+#menu button {
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 16px;
+    background: #444;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#menu button:hover {
+    background: #666;
+}
+
+#customization {
+    margin: 20px 0;
+}
+
+#customization label {
+    display: block;
+    margin: 10px 0;
+}
+
+#customization input, #customization select {
+    margin-left: 10px;
+}
+
+#game {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+}
+
+#crosshair {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 4px;
+    height: 4px;
+    background: white;
+    transform: translate(-50%, -50%);
+}
+
+#hud {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 18px;
+}
+
+#scoreboard {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+#scoreboard h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+#scoreboard-content {
+    margin-bottom: 20px;
+}
