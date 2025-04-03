@@ -6,7 +6,6 @@ function createTexture(type) {
     const ctx = canvas.getContext("2d");
 
     if (type === "floor") {
-        // Текстура пола (имитация бетона)
         ctx.fillStyle = "#666";
         ctx.fillRect(0, 0, 256, 256);
         for (let i = 0; i < 50; i++) {
@@ -21,8 +20,8 @@ function createTexture(type) {
             );
             ctx.fill();
         }
+        console.log("Floor texture created");
     } else if (type === "wall") {
-        // Текстура стены (имитация кирпича)
         ctx.fillStyle = "#8B4513";
         ctx.fillRect(0, 0, 256, 256);
         ctx.strokeStyle = "#555";
@@ -32,8 +31,8 @@ function createTexture(type) {
                 ctx.strokeRect(x + (y % 64 === 0 ? 0 : 32), y, 64, 32);
             }
         }
+        console.log("Wall texture created");
     } else if (type === "crate") {
-        // Текстура ящика (имитация дерева)
         ctx.fillStyle = "#8B5A2B";
         ctx.fillRect(0, 0, 256, 256);
         ctx.strokeStyle = "#654321";
@@ -44,6 +43,7 @@ function createTexture(type) {
             ctx.lineTo(256, i);
             ctx.stroke();
         }
+        console.log("Crate texture created");
     }
 
     return canvas.toDataURL("image/png");
