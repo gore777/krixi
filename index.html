@@ -4,18 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kour.io Clone Enhanced</title>
+    <!-- Загружаем Three.js и зависимости через script -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/examples/js/controls/PointerLockControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <script type="module" src="/game.js"></script>
     <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            background: #333;
+        body { 
+            margin: 0; 
+            overflow: hidden; 
+            background: #333; 
             cursor: crosshair;
-            font-family: Arial, sans-serif;
         }
-        canvas {
-            display: block;
-        }
+        canvas { display: block; }
         #crosshair {
             position: absolute;
             top: 50%;
@@ -30,75 +32,15 @@
             top: 10px;
             left: 10px;
             color: white;
-        }
-        #menu {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-        }
-        #menu button {
-            padding: 10px 20px;
-            margin: 10px;
-            font-size: 20px;
-            cursor: pointer;
-            background: #555;
-            border: none;
-            color: white;
-        }
-        #menu button:hover {
-            background: #777;
-        }
-        #death-screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 0, 0, 0.5);
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-        }
-        #death-screen button {
-            padding: 10px 20px;
-            font-size: 20px;
-            cursor: pointer;
-            background: #555;
-            border: none;
-            color: white;
-        }
-        #death-screen button:hover {
-            background: #777;
+            font-family: Arial, sans-serif;
         }
     </style>
 </head>
 <body>
-    <div id="menu">
-        <h1>Kour.io Clone</h1>
-        <button id="play-button">Play</button>
-        <button id="settings-button">Settings</button>
-    </div>
     <div id="crosshair"></div>
     <div id="hud">
         <div id="health">Health: 100</div>
         <div id="weapon">Weapon: Pistol</div>
-        <div id="ammo">Ammo: 15/30</div>
-        <div id="kills">Kills: 0</div>
-        <div id="team-score">Red: 0 | Blue: 0</div>
-    </div>
-    <div id="death-screen">
-        <h1>You Died!</h1>
-        <button id="respawn-button">Respawn</button>
     </div>
 </body>
 </html>
