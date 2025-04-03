@@ -1,4 +1,7 @@
 // game.js
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.module.min.js";
+import { PointerLockControls } from "https://cdn.jsdelivr.net/npm/three@0.150.1/examples/jsm/controls/PointerLockControls.js";
+
 let scene, camera, renderer, controls, player, weaponSystem;
 
 function initGame() {
@@ -9,7 +12,7 @@ function initGame() {
     document.getElementById("game").appendChild(renderer.domElement);
     console.log("Renderer initialized");
 
-    controls = new THREE.PointerLockControls(camera, renderer.domElement);
+    controls = new PointerLockControls(camera, renderer.domElement);
     document.addEventListener("click", () => controls.lock());
 
     const ambientLight = new THREE.AmbientLight(0x404040);
