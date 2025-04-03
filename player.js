@@ -1,4 +1,6 @@
 // player.js
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.module.min.js";
+
 class Player {
     constructor(socket, scene, camera, controls) {
         this.socket = socket;
