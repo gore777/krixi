@@ -49,6 +49,6 @@ function createTexture(type) {
     return canvas.toDataURL("image/png");
 }
 
-const floorTexture = createTexture("floor");
-const wallTexture = createTexture("wall");
-const crateTexture = createTexture("crate");
+export const floorTexture = createTexture("floor");
+export const wallTexture = createTexture("wall");
+export const crateTexture = createTexture("crate");
